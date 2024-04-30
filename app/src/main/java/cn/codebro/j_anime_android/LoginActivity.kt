@@ -34,8 +34,8 @@ class LoginActivity : BaseView(), LoginView {
 
         presenter.loadCaptcha()
         // 测试用代码
-        binding.usernameEditText.setText("tric")
-        binding.passwordEditText.setText("tric123")
+        binding.usernameEditText.setText("")
+        binding.passwordEditText.setText("")
     }
 
     private fun checkLoginStatus() {
