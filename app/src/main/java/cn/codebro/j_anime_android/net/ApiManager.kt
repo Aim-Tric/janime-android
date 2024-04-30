@@ -12,7 +12,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-//const val BASE_URL = "http://ani.live1024.cn:5000/api/"
 //const val BASE_URL = "http://192.168.10.100:8088/api/"
 var OPUS_COVER_URL = "${BuildConfig.BASE_URL}anime/opus/cover?resName="
 

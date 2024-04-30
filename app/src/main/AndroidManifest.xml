@@ -32,7 +32,7 @@
             android:screenOrientation="fullSensor">
             <intent-filter>
                 <data
-                    android:host="ani.live1024.cn"
+                    android:host="127.0.0.1"
                     android:scheme="j_anime" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
