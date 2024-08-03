@@ -10,8 +10,9 @@ import retrofit2.Response
 abstract class ApiCallback<T>(open val view: IView) : Callback<ApiResponse<T>> {
 
     override fun onResponse(call: Call<ApiResponse<T>>, response: Response<ApiResponse<T>>) {
+        Log.d("NetWork", response.code().toString());
         val body = response.body()
-        if (body == null) {
+        if (response.code() != 200 || body == null) {
             onFailure(
                 call,
                 IllegalArgumentException("The HTTP response body is empty. Please check out your response.")

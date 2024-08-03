@@ -14,6 +14,10 @@ abstract class BaseFragment : Fragment(), IView {
 
     }
 
+    override fun fireEvent(name: String) {
+
+    }
+
     override fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }

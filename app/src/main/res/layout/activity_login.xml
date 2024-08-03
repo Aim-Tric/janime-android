@@ -82,4 +82,17 @@
             android:text="@string/login_btn_text" />
     </LinearLayout>
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="12dp"
+        android:text="服务器设置">
+    </TextView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

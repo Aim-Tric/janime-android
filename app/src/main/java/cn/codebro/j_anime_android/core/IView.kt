@@ -6,4 +6,5 @@ interface IView {
     fun getContext(): Context?
     fun showToast(message: String)
     fun notLogin()
+    fun fireEvent(name: String)
 }

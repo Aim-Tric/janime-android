@@ -29,13 +29,13 @@ class LoginActivity : BaseView(), LoginView {
         setContentView(binding.root)
         presenter = UserPresenter(this)
 
-//        checkLoginStatus()
+        checkLoginStatus()
         bindEvent()
 
         presenter.loadCaptcha()
         // 测试用代码
-        binding.usernameEditText.setText("")
-        binding.passwordEditText.setText("")
+        binding.usernameEditText.setText("tric")
+        binding.passwordEditText.setText("tric233")
     }
 
     private fun checkLoginStatus() {

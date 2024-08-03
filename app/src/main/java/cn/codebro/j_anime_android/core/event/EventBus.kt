@@ -16,11 +16,12 @@ class EventBus {
     }
 }
 
-interface Subscriber<out T : Event> {
+interface Subscriber<out T: Event> {
     fun onEventPost(event: Event)
 }
 
 interface Event {
     fun getName(): String
+    fun getParam(): Map<String, Any>
 }
 

@@ -1,24 +1,29 @@
 <resources>
+    <!-- 服务器设置界面 -->
+    <string name="server_setting_title">服务器配置</string>
+    <string name="server_setting_server_address_label">服务器地址</string>
+    <string name="server_setting_server_address_hint">请输入服务器地址</string>
+    <string name="server_setting_save_server_address_text">保存服务器地址</string>
+
+    <!-- 登录界面 -->
     <string name="app_name">JAnime</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="title_activity_login">登录到JAnime</string>
     <string name="nav_header_title">JAnime用户名</string>
     <string name="nav_header_subtitle">JAnime用户邮箱地址</string>
+
+    <!-- 首页侧滑导航 -->
     <string name="nav_header_desc">导航栏头部</string>
     <string name="action_settings">设置</string>
-
     <string name="menu_home">番剧首页</string>
     <string name="menu_gallery">我的追番</string>
     <string name="menu_slideshow">个人信息</string>
-    <string name="title_activity_login">登录到JAnime</string>
 
     <string name="logout_button">退出登录</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
+    <!-- 番剧详细页 -->
     <string name="opus_home_item_episodes_text_tpl">全 %1$s 话</string>
     <string name="opus_player_playing_episodes_text_tpl">正在播放：第 %1$s 集</string>
     <string name="opus_player_is_follow_status_text_tpl">追番状态：%1$s</string>

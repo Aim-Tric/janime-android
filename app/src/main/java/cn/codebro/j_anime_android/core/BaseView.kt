@@ -11,7 +11,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
+import cn.codebro.j_anime_android.JAnimeApplication
+import cn.codebro.j_anime_android.LOGIN_USER_PK
 import cn.codebro.j_anime_android.LoginActivity
+import cn.codebro.j_anime_android.core.event.EventBus
+import cn.codebro.j_anime_android.loginUserDataStore
+import cn.codebro.j_anime_android.pojo.LoginUserVO
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
 
 abstract class BaseView : AppCompatActivity(), IView {
@@ -20,6 +30,19 @@ abstract class BaseView : AppCompatActivity(), IView {
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE"
     )
+
+    init {
+        eventBus = EventBus()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+
+//        eventBus.subscribe("NOT_LOGIN", )
+
+        checkPermission()
+        checkAuthority()
+    }
 
     private fun checkPermission() {
         try {
@@ -53,9 +76,23 @@ abstract class BaseView : AppCompatActivity(), IView {
         startActivity(intent)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        checkPermission()
+    private fun checkAuthority() {
+        runBlocking {
+            launch {
+                loginUserDataStore.data.collect {
+                    val loginUserPreferences = it[LOGIN_USER_PK]
+                    if (loginUserPreferences.isNullOrBlank()) {
+                        notLogin()
+                        return@collect
+                    }
+                }
+            }
+        }
+
+    }
+
+    override fun fireEvent(name: String) {
+
     }
 
     override fun onBackPressed() {
@@ -111,6 +148,10 @@ abstract class BaseView : AppCompatActivity(), IView {
     }
 
     override fun getContext(): Context? = this
+
+    companion object {
+        lateinit var eventBus: EventBus
+    }
 }
 
 

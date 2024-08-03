@@ -19,10 +19,11 @@ fun toOpusMediaUrl(opusId: String, episode: String, mediaType: String = "mp4"): 
     return "${BuildConfig.BASE_URL}anime/opus/media/${opusId}?resName=${episode}.${mediaType}"
 }
 
-class ApiManager(gson: Gson, val persistentCookieStore: PersistentCookieStore) {
+class ApiManager(private val gson: Gson, val persistentCookieStore: PersistentCookieStore) {
     private var httpLoggingInterceptor = HttpLoggingInterceptor()
-    private var retrofit: Retrofit
+    private var isReady: Boolean = false;
     var okHttpClient: OkHttpClient
+    private var retrofit: Retrofit? = null
 
     init {
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -34,19 +35,28 @@ class ApiManager(gson: Gson, val persistentCookieStore: PersistentCookieStore) {
         okHttpClientBuilder.addInterceptor(httpLoggingInterceptor)
         okHttpClientBuilder.cookieJar(CookieManger(persistentCookieStore))
         okHttpClient = okHttpClientBuilder.build()
+    }
+
+    fun setup(url: String) {
         retrofit = Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(url)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
             .build()
+        isReady = true
+    }
+
+    private fun <T> createService(target: Class<T>): T {
+        if (isReady) return retrofit!!.create(target)
+        throw IllegalStateException("This 'ApiManager' did not ready to work.")
     }
 
     fun userService(): UserService {
-        return retrofit.create(UserService::class.java)
+        return createService(UserService::class.java)
     }
 
     fun opusService(): OpusService {
-        return retrofit.create(OpusService::class.java)
+        return createService(OpusService::class.java)
     }
 
     class CookieManger(private val cookieStore: PersistentCookieStore) : CookieJar {
