@@ -28,8 +28,6 @@ class ServerSettingActivity : BaseView(), ServerSettingView {
         binding = ActivityServerSettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.serverAddressEditText.setText("http://ani.live1024.cn:5000/")
-
         binding.saveServerAddressButton.setOnClickListener {
             val address = binding.serverAddressEditText.text.trim().toString()
 
