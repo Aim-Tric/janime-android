@@ -5,14 +5,19 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
 import androidx.lifecycle.lifecycleScope
-import cn.codebro.j_anime_android.databinding.ActivityLoginBinding
 import cn.codebro.j_anime_android.core.BaseView
 import cn.codebro.j_anime_android.core.IView
+import cn.codebro.j_anime_android.databinding.ActivityLoginBinding
 import cn.codebro.j_anime_android.pojo.CaptchaVO
 import cn.codebro.j_anime_android.pojo.LoginDTO
 import cn.codebro.j_anime_android.pojo.LoginUserVO
 import cn.codebro.j_anime_android.presenter.UserPresenter
+import cn.hutool.crypto.SecureUtil
+import cn.hutool.crypto.SmUtil
+import cn.hutool.crypto.asymmetric.KeyType
+import cn.hutool.crypto.asymmetric.SM2
 import kotlinx.coroutines.launch
+
 
 interface LoginView : IView {
     fun setCaptcha(captchaResp: CaptchaVO)
@@ -82,16 +87,23 @@ class LoginActivity : BaseView(), LoginView {
             }
             if (captchaId.isNullOrBlank() || publicKey.isNullOrBlank())
                 showToast("请联系作者排查异常....")
-            else
+            else {
+                val pair = SecureUtil.generateKeyPair(publicKey!!)
+                val encodedPublicKey = pair.public.encoded
+                val sm2: SM2 = SmUtil.sm2(null, encodedPublicKey)
+                val encryptPassword = sm2.encrypt(password.toString().toByteArray()).toString()
+
                 presenter.login(
                     LoginDTO(
                         captchaId!!,
                         username.toString(),
-                        password.toString(),
+                        encryptPassword,
                         publicKey!!,
                         captcha.toString()
                     )
                 )
+            }
+
         }
     }
 
