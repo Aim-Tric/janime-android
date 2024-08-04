@@ -30,10 +30,6 @@ class SplashActivity : BaseView() {
     private fun setupApplication() {
         lifecycleScope.launch {
             launch {
-                Log.d("setupApplication", JAnimeApplication.isReady.toString())
-                if(!JAnimeApplication.isReady) {
-                    delay(2000L)
-                }
                 applicationDataStore.data.collect {
                     if (it[APPLICATION_STATE_PK].isNullOrBlank())
                         startActivityByClass(ServerSettingActivity::class.java)
@@ -45,7 +41,7 @@ class SplashActivity : BaseView() {
                             JAnimeApplication.applicationState.refresh(appState)
 
                             // 应用状态存在，初始化api管理器
-                            JAnimeApplication.apiManager!!.setup(ApplicationState.server!!)
+                            JAnimeApplication.apiManager!!.setup(JAnimeApplication.applicationState.server!!)
 
                             // 如果token存在，跳转到主布局检验是否能获取数据，不能再跳转到登录界面进行登录操作
                             if (appState.token.isNullOrBlank())

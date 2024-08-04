@@ -1,6 +1,6 @@
 package cn.codebro.j_anime_android.state
 
-object ApplicationState {
+class ApplicationState {
     var server: String? = null
     var username: String? = null
     var token: String? = null

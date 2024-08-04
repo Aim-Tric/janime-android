@@ -48,7 +48,6 @@ class JAnimeApplication : Application() {
                     AppDatabase::class.java, "janime-db"
                 ).build()
                 apiManager = ApiManager(gson, PersistentCookieStore())
-                isReady = true
             }
         }
         PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
@@ -58,11 +57,10 @@ class JAnimeApplication : Application() {
     companion object {
         lateinit var instance: JAnimeApplication
         lateinit var gson: Gson
-        var isReady: Boolean = false
         var apiManager: ApiManager? = null
         var db: AppDatabase? = null
         var workManager: WorkManager? = null
-        val applicationState: ApplicationState = ApplicationState
+        val applicationState: ApplicationState = ApplicationState()
     }
 
 }
