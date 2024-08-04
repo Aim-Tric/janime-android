@@ -36,28 +36,30 @@ class JAnimeApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        runBlocking(Dispatchers.IO) {
-            launch {
-                initApplication()
-            }
-        }
+        initApplication()
     }
 
-    private suspend fun initApplication() {
-        workManager = WorkManager.getInstance(this@JAnimeApplication)
-        db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "janime-db"
-        ).build()
+    private fun initApplication() {
+        runBlocking(Dispatchers.IO) {
+            launch {
+                workManager = WorkManager.getInstance(this@JAnimeApplication)
+                db = Room.databaseBuilder(
+                    applicationContext,
+                    AppDatabase::class.java, "janime-db"
+                ).build()
+                apiManager = ApiManager(gson, PersistentCookieStore())
+                isReady = true
+            }
+        }
         PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
-        apiManager = ApiManager(gson, PersistentCookieStore())
     }
 
 
     companion object {
         lateinit var instance: JAnimeApplication
-        var apiManager: ApiManager? = null
         lateinit var gson: Gson
+        var isReady: Boolean = false
+        var apiManager: ApiManager? = null
         var db: AppDatabase? = null
         var workManager: WorkManager? = null
         val applicationState: ApplicationState = ApplicationState

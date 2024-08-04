@@ -15,17 +15,15 @@ class ApiResponse<T> {
         this.time = time
         this.data = data
     }
-
-
 }
 
-data class CaptchaDTO(val codeType: String)
-
 data class LoginDTO(
+    val captchaId: String,
     val username: String,
     val password: String,
     val captcha: String,
-    val rememberMe: Boolean = false
+    val publicKey: String,
+    val rememberMe: Boolean = true
 )
 
 data class OpusHomeDTO(

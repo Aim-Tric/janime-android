@@ -17,6 +17,8 @@ object ApplicationState {
         token = null
     }
 
-
+    override fun toString(): String {
+        return this.server!!
+    }
 
 }

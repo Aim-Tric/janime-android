@@ -5,12 +5,14 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import androidx.lifecycle.lifecycleScope
 import cn.codebro.j_anime_android.core.BaseView
 import cn.codebro.j_anime_android.databinding.ActivitySplashBinding
 import cn.codebro.j_anime_android.state.ApplicationState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
@@ -28,6 +30,10 @@ class SplashActivity : BaseView() {
     private fun setupApplication() {
         lifecycleScope.launch {
             launch {
+                Log.d("setupApplication", JAnimeApplication.isReady.toString())
+                if(!JAnimeApplication.isReady) {
+                    delay(2000L)
+                }
                 applicationDataStore.data.collect {
                     if (it[APPLICATION_STATE_PK].isNullOrBlank())
                         startActivityByClass(ServerSettingActivity::class.java)

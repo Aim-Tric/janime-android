@@ -15,15 +15,15 @@ import retrofit2.http.Path
 
 interface OpusService {
 
-    @POST("anime/opus/listByUser")
+    @POST("api/anime/opus/listByUser")
     @Headers("Content-Type: application/json; charset=UTF-8")
     fun listByPage(@Body opusHomeDTO: OpusHomeDTO): Call<ApiResponse<ApiPage<OpusHomeVO>?>>
 
-    @GET("anime/opus/getOpusMedia/{opusId}")
+    @GET("api/anime/opus/getOpusMedia/{opusId}")
     @Headers("Content-Type: application/json; charset=UTF-8")
     fun getOpusMedia(@Path("opusId") opusId: String): Call<ApiResponse<OpusMediaVO?>>
 
-    @POST("anime/userOpus/updateProgress")
+    @POST("api/anime/userOpus/updateProgress")
     @Headers("Content-Type: application/json; charset=UTF-8")
     fun updateProgress(@Body opusUpdateProgressDTO: OpusUpdateProgressDTO): Call<ApiResponse<Boolean?>>
 

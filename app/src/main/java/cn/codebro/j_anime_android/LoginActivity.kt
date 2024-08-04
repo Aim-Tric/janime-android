@@ -8,13 +8,14 @@ import androidx.lifecycle.lifecycleScope
 import cn.codebro.j_anime_android.databinding.ActivityLoginBinding
 import cn.codebro.j_anime_android.core.BaseView
 import cn.codebro.j_anime_android.core.IView
+import cn.codebro.j_anime_android.pojo.CaptchaVO
 import cn.codebro.j_anime_android.pojo.LoginDTO
 import cn.codebro.j_anime_android.pojo.LoginUserVO
 import cn.codebro.j_anime_android.presenter.UserPresenter
 import kotlinx.coroutines.launch
 
 interface LoginView : IView {
-    fun setCaptcha(imgBase64String: String)
+    fun setCaptcha(captchaResp: CaptchaVO)
     fun loginSuccess()
     fun loginFail(message: String)
 }
@@ -22,6 +23,8 @@ interface LoginView : IView {
 class LoginActivity : BaseView(), LoginView {
     private lateinit var presenter: UserPresenter
     private lateinit var binding: ActivityLoginBinding
+    private var captchaId: String? = null
+    private var publicKey: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,19 +80,26 @@ class LoginActivity : BaseView(), LoginView {
 
                 return@setOnClickListener
             }
-            presenter.login(
-                LoginDTO(
-                    username.toString(),
-                    password.toString(),
-                    captcha.toString()
+            if (captchaId.isNullOrBlank() || publicKey.isNullOrBlank())
+                showToast("请联系作者排查异常....")
+            else
+                presenter.login(
+                    LoginDTO(
+                        captchaId!!,
+                        username.toString(),
+                        password.toString(),
+                        publicKey!!,
+                        captcha.toString()
+                    )
                 )
-            )
         }
     }
 
-    override fun setCaptcha(imgBase64String: String) {
+    override fun setCaptcha(captchaResp: CaptchaVO) {
+        captchaId = captchaResp.captchaId
+        publicKey = captchaResp.publicKey
         val decodedBytes: ByteArray =
-            Base64.decode(imgBase64String, Base64.DEFAULT)
+            Base64.decode(captchaResp.imgBase64, Base64.DEFAULT)
         val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
         binding.captchaImageView.setImageBitmap(bitmap)
     }

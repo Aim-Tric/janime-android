@@ -2,6 +2,11 @@ package cn.codebro.j_anime_android.pojo
 
 import java.math.BigInteger
 
+data class CaptchaVO (
+    val captchaId: String,
+    val imgBase64: String,
+    val publicKey: String
+)
 
 data class LoginUserVO(
     val id: Long,

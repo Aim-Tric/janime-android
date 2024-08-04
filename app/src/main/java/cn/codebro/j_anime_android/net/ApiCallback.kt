@@ -34,7 +34,7 @@ abstract class ApiCallback<T>(open val view: IView) : Callback<ApiResponse<T>> {
             }
 
             else -> {
-                view.showToast("未定义响应码")
+                view.showToast("(⊙﹏⊙)！系统发了会儿呆o_o....忘记刚刚做了什么")
             }
         }
     }

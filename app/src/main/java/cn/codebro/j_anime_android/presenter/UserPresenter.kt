@@ -8,7 +8,7 @@ import cn.codebro.j_anime_android.loginUserDataStore
 import cn.codebro.j_anime_android.net.ApiCallback
 import cn.codebro.j_anime_android.net.UserService
 import cn.codebro.j_anime_android.pojo.ApiResponse
-import cn.codebro.j_anime_android.pojo.CaptchaDTO
+import cn.codebro.j_anime_android.pojo.CaptchaVO
 import cn.codebro.j_anime_android.pojo.LoginDTO
 import cn.codebro.j_anime_android.pojo.LoginUserVO
 import kotlinx.coroutines.runBlocking
@@ -18,7 +18,7 @@ class UserPresenter(private val view: LoginView) {
     private val userService: UserService = JAnimeApplication.apiManager!!.userService()
 
     fun loadCaptcha() {
-        userService.captcha(CaptchaDTO("LOGIN"))
+        userService.captcha(System.currentTimeMillis().toString())
             .enqueue(CaptchaCallback(view))
     }
 
@@ -31,8 +31,8 @@ class UserPresenter(private val view: LoginView) {
     }
 
     inner class CaptchaCallback(override val view: LoginView) :
-        ApiCallback<String>(view) {
-        override fun onResponseSuccess(response: ApiResponse<String>) {
+        ApiCallback<CaptchaVO>(view) {
+        override fun onResponseSuccess(response: ApiResponse<CaptchaVO>) {
             response.data?.let { view.setCaptcha(it) }
         }
     }
