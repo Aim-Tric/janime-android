@@ -88,9 +88,7 @@ class LoginActivity : BaseView(), LoginView {
             if (captchaId.isNullOrBlank() || publicKey.isNullOrBlank())
                 showToast("请联系作者排查异常....")
             else {
-                val pair = SecureUtil.generateKeyPair(publicKey!!)
-                val encodedPublicKey = pair.public.encoded
-                val sm2: SM2 = SmUtil.sm2(null, encodedPublicKey)
+                val sm2: SM2 = SmUtil.sm2(null, publicKey!!.toByteArray())
                 val encryptPassword = sm2.encrypt(password.toString().toByteArray()).toString()
 
                 presenter.login(

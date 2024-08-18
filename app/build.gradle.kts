@@ -43,11 +43,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         viewBinding = true
@@ -107,10 +107,9 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.8.1")
 
     // hutool加密工具
-    implementation("cn.hutool:hutool-core:5.8.29")
-    implementation("cn.hutool:hutool-crypto:5.8.29")
+    implementation("cn.hutool:hutool-all:5.8.29")
     // 国密加密库
-    implementation("org.bouncycastle:bcpkix-jdk18on:1.78.1")
+    implementation("org.bouncycastle:bcpkix-jdk15to18:1.78.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
