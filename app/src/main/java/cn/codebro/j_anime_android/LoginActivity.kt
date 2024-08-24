@@ -12,6 +12,9 @@ import cn.codebro.j_anime_android.pojo.CaptchaVO
 import cn.codebro.j_anime_android.pojo.LoginDTO
 import cn.codebro.j_anime_android.pojo.LoginUserVO
 import cn.codebro.j_anime_android.presenter.UserPresenter
+import cn.hutool.core.util.HexUtil
+import cn.hutool.core.util.StrUtil
+import cn.hutool.crypto.ECKeyUtil
 import cn.hutool.crypto.SecureUtil
 import cn.hutool.crypto.SmUtil
 import cn.hutool.crypto.asymmetric.KeyType
@@ -88,16 +91,16 @@ class LoginActivity : BaseView(), LoginView {
             if (captchaId.isNullOrBlank() || publicKey.isNullOrBlank())
                 showToast("请联系作者排查异常....")
             else {
-                val sm2: SM2 = SmUtil.sm2(null, publicKey!!.toByteArray())
-                val encryptPassword = sm2.encrypt(password.toString().toByteArray()).toString()
+                val sm2: SM2 = SmUtil.sm2(null, ECKeyUtil.toSm2PublicParams(publicKey!!))
+                val encryptPassword = sm2.encrypt(password.toString().toByteArray())
 
                 presenter.login(
                     LoginDTO(
                         captchaId!!,
                         username.toString(),
-                        encryptPassword,
-                        publicKey!!,
-                        captcha.toString()
+                        HexUtil.encodeHexStr(encryptPassword),
+                        captcha.toString(),
+                        publicKey!!
                     )
                 )
             }

@@ -29,7 +29,7 @@ class OpusHomeViewHolder(private val binding: LayoutOpusHomeItemBinding) :
     fun bind(item: OpusHomeVO?) {
         item?.let {
             opusHomeVO = item
-            val url = "${OPUS_COVER_URL}${item.coverUrl}"
+            val url = "${item.coverUrl}"
             item.coverUrl?.let {
                 Glide.with(itemView)
                     .asDrawable()

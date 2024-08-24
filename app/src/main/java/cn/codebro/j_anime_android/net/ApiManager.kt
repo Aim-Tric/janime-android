@@ -11,9 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-
-//const val BASE_URL = "http://192.168.10.100:8088/api/"
-var OPUS_COVER_URL = "${BuildConfig.BASE_URL}anime/opus/cover?resName="
+var OPUS_COVER_URL = "anime/opus/cover?resName="
 
 fun toOpusMediaUrl(opusId: String, episode: String, mediaType: String = "mp4"): String {
     return "${BuildConfig.BASE_URL}anime/opus/media/${opusId}?resName=${episode}.${mediaType}"
@@ -24,6 +22,7 @@ class ApiManager(private val gson: Gson, val persistentCookieStore: PersistentCo
     private var isReady: Boolean = false;
     var okHttpClient: OkHttpClient
     private var retrofit: Retrofit? = null
+    var baseUrl: String? = null
 
     init {
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -38,6 +37,7 @@ class ApiManager(private val gson: Gson, val persistentCookieStore: PersistentCo
     }
 
     fun setup(url: String) {
+        baseUrl = url
         retrofit = Retrofit.Builder()
             .baseUrl(url)
             .addConverterFactory(GsonConverterFactory.create(gson))
